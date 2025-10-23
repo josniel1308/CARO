@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te Amo Princesa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(30, 30, 46, 0.9);
+            border-radius: 20px;
+            padding: 25px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #4a1e6a;
+            margin: 10px 0;
+        }
+
+        h1 {
+            color: #8a4fff;
+            margin-bottom: 15px;
+            font-size: clamp(1.8rem, 6vw, 2.5rem);
+            text-shadow: 0 0 10px rgba(138, 79, 255, 0.5);
+            line-height: 1.2;
+        }
+
+        .image-container {
+            margin: 15px 0;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-container img {
+            width: 100%;
+            max-width: 280px;
+            height: auto;
+            border-radius: 15px;
+            display: block;
+            margin: 0 auto;
+            transition: transform 0.3s ease;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.03);
+        }
+
+        .message {
+            font-size: clamp(1.4rem, 5vw, 1.8rem);
+            margin: 15px 0;
+            color: #6ab1ff;
+            text-shadow: 0 0 5px rgba(106, 177, 255, 0.3);
+            line-height: 1.3;
+        }
+
+        .question {
+            font-size: clamp(1.2rem, 4.5vw, 1.5rem);
+            margin: 15px 0;
+            color: #d9a9ff;
+            line-height: 1.3;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 14px 25px;
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            min-width: 100px;
+            touch-action: manipulation;
+        }
+
+        #si-btn {
+            background: linear-gradient(135deg, #6ab1ff, #4a1e6a);
+            color: white;
+            box-shadow: 0 5px 15px rgba(106, 177, 255, 0.4);
+            flex: 1;
+            max-width: 140px;
+        }
+
+        #si-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 3px 10px rgba(106, 177, 255, 0.4);
+        }
+
+        #no-btn {
+            background: linear-gradient(135deg, #ff6a6a, #8a4fff);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 106, 106, 0.4);
+            position: relative;
+            flex: 1;
+            max-width: 140px;
+        }
+
+        #no-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 3px 10px rgba(255, 106, 106, 0.4);
+        }
+
+        .final-message {
+            font-size: clamp(1.5rem, 6vw, 2rem);
+            margin-top: 25px;
+            color: #ff6a9f;
+            text-shadow: 0 0 10px rgba(255, 106, 159, 0.5);
+            opacity: 0;
+            transition: opacity 1s ease;
+            line-height: 1.3;
+        }
+
+        .show {
+            opacity: 1;
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ff6a9f;
+            transform: rotate(45deg);
+            opacity: 0;
+        }
+
+        .heart:before, .heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #ff6a9f;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+            100% { transform: translateY(0) rotate(0); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Estilos específicos para móviles */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+                justify-content: flex-start;
+                padding-top: 20px;
+            }
+            
+            .container {
+                padding: 20px 15px;
+                border-radius: 15px;
+            }
+            
+            .image-container {
+                margin: 10px 0;
+            }
+            
+            .image-container img {
+                max-width: 220px;
+            }
+            
+            .buttons {
+                gap: 10px;
+            }
+            
+            button {
+                padding: 12px 20px;
+                min-width: 90px;
+            }
+            
+            #si-btn, #no-btn {
+                max-width: 120px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .container {
+                padding: 15px 10px;
+            }
+            
+            .image-container img {
+                max-width: 180px;
+            }
+            
+            button {
+                padding: 10px 15px;
+                min-width: 80px;
+            }
+            
+            #si-btn, #no-btn {
+                max-width: 100px;
+            }
+        }
+
+        /* Para pantallas muy altas en móviles */
+        @media (max-height: 700px) and (max-width: 480px) {
+            .container {
+                margin: 5px 0;
+                padding: 15px 10px;
+            }
+            
+            .image-container {
+                margin: 8px 0;
+            }
+            
+            .image-container img {
+                max-width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <h1>Para Mi Princesa Carol</h1>
+        <div class="image-container">
+            <!-- Reemplaza "RES/caro.jpg" con la ruta correcta de tu imagen -->
+            <img id="girl-image" src="RES/caro.jpg" alt="Chica especial" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNGExZTZhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlbiBubySgZW5jb250cmFkYTwvdGV4dD48L3N2Zz4='">
+        </div>
+        
+        <p class="message">Te amo princesa</p>
+        
+        <p class="question">¿Te gusto?</p>
+        
+        <div class="buttons">
+            <button id="si-btn">Sí</button>
+            <button id="no-btn">No</button>
+        </div>
+        
+        <p class="final-message" id="final-message">2 años no son nada, te amo linda</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const siBtn = document.getElementById('si-btn');
+            const noBtn = document.getElementById('no-btn');
+            const finalMessage = document.getElementById('final-message');
+            const heartsContainer = document.getElementById('hearts');
+            const girlImage = document.getElementById('girl-image');
+            
+            // Añadir efecto flotante a la imagen
+            girlImage.classList.add('floating');
+            
+            // Manejar el botón "No" - versión móvil (touch)
+            let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // Para móviles: el botón se mueve al tocarlo
+                noBtn.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    moveNoButton();
+                });
+                
+                // También se mueve si el dedo se acerca (para algunos dispositivos)
+                noBtn.addEventListener('touchmove', function(e) {
+                    e.preventDefault();
+                });
+            } else {
+                // Para desktop: el botón se mueve al pasar el mouse
+                noBtn.addEventListener('mouseover', moveNoButton);
+            }
+            
+            // Función para mover el botón "No"
+            function moveNoButton() {
+                // Calcular posiciones máximas considerando el viewport móvil
+                const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+                const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+                
+                // Posiciones aleatorias dentro de los límites
+                const randomX = Math.max(10, Math.floor(Math.random() * maxX));
+                const randomY = Math.max(10, Math.floor(Math.random() * maxY));
+                
+                // Aplicar nueva posición
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = randomX + 'px';
+                noBtn.style.top = randomY + 'px';
+                noBtn.style.zIndex = '10';
+                
+                // Efecto visual de movimiento
+                noBtn.style.transition = 'all 0.3s ease';
+            }
+            
+            // Manejar el botón "Sí"
+            siBtn.addEventListener('click', handleYesClick);
+            
+            // También permitir tocar el botón Sí en móviles
+            if (isMobile) {
+                siBtn.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    handleYesClick();
+                });
+            }
+            
+            function handleYesClick() {
+                // Mostrar el mensaje final
+                finalMessage.classList.add('show');
+                
+                // Crear corazones animados
+                createHearts();
+                
+                // Ocultar los botones
+                siBtn.style.display = 'none';
+                noBtn.style.display = 'none';
+                
+                // Cambiar el mensaje de pregunta
+                document.querySelector('.question').textContent = '¡Sabía que te gustaría!';
+                
+                // Reproducir efecto de vibración en móviles (si está disponible)
+                if (navigator.vibrate) {
+                    navigator.vibrate([100, 50, 100]);
+                }
+            }
+            
+            // Función para crear corazones animados
+            function createHearts() {
+                const heartCount = isMobile ? 20 : 30; // Menos corazones en móviles para mejor rendimiento
+                
+                for (let i = 0; i < heartCount; i++) {
+                    setTimeout(() => {
+                        const heart = document.createElement('div');
+                        heart.classList.add('heart');
+                        
+                        // Posición aleatoria
+                        const posX = Math.random() * window.innerWidth;
+                        heart.style.left = posX + 'px';
+                        heart.style.bottom = '-20px';
+                        
+                        // Tamaño aleatorio (más pequeños en móviles)
+                        const size = isMobile ? 
+                            (Math.random() * 15 + 8) : 
+                            (Math.random() * 20 + 10);
+                        heart.style.width = size + 'px';
+                        heart.style.height = size + 'px';
+                        
+                        // Color aleatorio
+                        const colors = ['#ff6a9f', '#6ab1ff', '#8a4fff', '#ff6a6a'];
+                        const color = colors[Math.floor(Math.random() * colors.length)];
+                        heart.style.background = color;
+                        heart.style.setProperty('--heart-color', color);
+                        
+                        heartsContainer.appendChild(heart);
+                        
+                        // Animación
+                        const animation = heart.animate([
+                            { bottom: '-20px', opacity: 1, transform: 'scale(0.5)' },
+                            { bottom: window.innerHeight + 'px', opacity: 0, transform: 'scale(1)' }
+                        ], {
+                            duration: Math.random() * 3000 + 2000,
+                            easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                        });
+                        
+                        // Eliminar el corazón después de la animación
+                        animation.onfinish = () => {
+                            heart.remove();
+                        };
+                    }, i * 200);
+                }
+            }
+            
+            // Prevenir zoom en doble tap en móviles
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+        });
+    </script>
+</body>
+</html>

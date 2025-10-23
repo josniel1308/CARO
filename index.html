@@ -122,6 +122,7 @@
             position: relative;
             flex: 1;
             max-width: 140px;
+            transition: all 0.5s ease;
         }
 
         #no-btn:active {
@@ -266,10 +267,11 @@
     <div class="hearts" id="hearts"></div>
     
     <div class="container">
-        <h1>Para Mi Princesa Carol</h1>
+        <h1>Para Mi Princesa</h1>
+        
         <div class="image-container">
             <!-- Reemplaza "RES/caro.jpg" con la ruta correcta de tu imagen -->
-            <img id="girl-image" src="RES/caro.jpg" alt="Chica especial" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNGExZTZhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlbiBubySgZW5jb250cmFkYTwvdGV4dD48L3N2Zz4='">
+            <img id="girl-image" src="RES/caro.jpg" alt="Chica especial" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNGExZTZhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlbiBubyBlbmNvbnRyYWRhPC90ZXh0Pjwvc3ZnPg=='">
         </div>
         
         <p class="message">Te amo princesa</p>
@@ -281,7 +283,7 @@
             <button id="no-btn">No</button>
         </div>
         
-        <p class="final-message" id="final-message">2 años no son nada, te amo linda</p>
+        <p class="final-message" id="final-message">¡Te amo hermosa!</p>
     </div>
 
     <script>
@@ -295,24 +297,8 @@
             // Añadir efecto flotante a la imagen
             girlImage.classList.add('floating');
             
-            // Manejar el botón "No" - versión móvil (touch)
+            // Detectar si es un dispositivo móvil
             let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            
-            if (isMobile) {
-                // Para móviles: el botón se mueve al tocarlo
-                noBtn.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                    moveNoButton();
-                });
-                
-                // También se mueve si el dedo se acerca (para algunos dispositivos)
-                noBtn.addEventListener('touchmove', function(e) {
-                    e.preventDefault();
-                });
-            } else {
-                // Para desktop: el botón se mueve al pasar el mouse
-                noBtn.addEventListener('mouseover', moveNoButton);
-            }
             
             // Función para mover el botón "No"
             function moveNoButton() {
@@ -331,7 +317,32 @@
                 noBtn.style.zIndex = '10';
                 
                 // Efecto visual de movimiento
-                noBtn.style.transition = 'all 0.3s ease';
+                noBtn.style.transition = 'all 0.5s ease';
+                
+                console.log("Botón movido a:", randomX, randomY);
+            }
+            
+            // Manejar el botón "No" - para ambos, desktop y móvil
+            noBtn.addEventListener('click', function(e) {
+                // Prevenir el comportamiento por defecto
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Mover el botón
+                moveNoButton();
+                
+                // En móviles, prevenir cualquier otra acción
+                if (isMobile) {
+                    return false;
+                }
+            });
+            
+            // Para móviles: también mover al tocar (evento touchstart)
+            if (isMobile) {
+                noBtn.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    moveNoButton();
+                });
             }
             
             // Manejar el botón "Sí"
